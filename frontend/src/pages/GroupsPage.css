@@ -1,0 +1,473 @@
+@import "../styles/globals.css";
+@import "./DashboardPage.css"; /* reuse ConsoleHeader, CardAction, pills, etc. */
+
+/* main page container (inside AppMainRegion) */
+.GroupsPage {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
+
+.GroupsHeaderStrip {
+  flex-wrap: wrap;
+}
+
+/* ========== ACTION BAR (create / browse) ========== */
+
+.GroupsActionsBar {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  box-shadow:
+    0 0 20px rgba(184,119,255,0.25),
+    0 60px 120px rgba(0,0,0,0.95);
+  position: relative;
+  isolation: isolate;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 1rem;
+  column-gap: 2rem;
+
+  padding: 1rem 1rem 1rem;
+}
+
+/* glow spill */
+.GroupsActionsBar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 10% 0%,
+    rgba(184,119,255,0.18) 0%,
+    rgba(0,0,0,0) 60%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.GroupsIntroText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.4;
+  min-width: 200px;
+}
+
+.IntroTitle {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-primary);
+  text-shadow:
+    0 0 10px rgba(184,119,255,0.6),
+    0 0 24px rgba(0,0,0,0.9);
+  margin-bottom: 0.25rem;
+}
+
+.IntroBody {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+
+.GroupsActionButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* "Create Group" button */
+.GroupsMainBtn {
+  background: rgba(20,10,40,0.4);
+  border: 1px solid var(--stroke-soft);
+  border-radius: 8px;
+
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  padding: 0.75rem 1rem;
+  min-width: 180px;
+  cursor: pointer;
+
+  box-shadow:
+    0 0 12px rgba(184,119,255,0.5),
+    0 0 40px rgba(0,0,0,0.9);
+  transition: 0.2s;
+}
+
+.GroupsMainBtn:hover {
+  border-color: var(--stroke-strong);
+  background-color: rgba(40,20,60,0.5);
+  box-shadow:
+    0 0 14px rgba(184,119,255,0.7),
+    0 0 48px rgba(0,0,0,1);
+}
+
+.GroupsMainBtnMain {
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-shadow:
+    0 0 8px rgba(184,119,255,0.6),
+    0 0 20px rgba(184,119,255,0.4);
+}
+
+.GroupsMainBtnSub {
+  font-size: 0.6rem;
+  line-height: 1.2;
+  margin-top: 0.4rem;
+  color: var(--text-dim);
+  text-shadow: 0 0 4px rgba(0,0,0,0.8);
+}
+
+/* "Browse Open Groups" button */
+.GroupsGhostBtn {
+  background: rgba(0,0,0,0);
+  border: 1px solid var(--stroke-soft);
+  border-radius: 8px;
+
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  padding: 0.75rem 1rem;
+  min-width: 200px;
+  cursor: pointer;
+
+  box-shadow:
+    0 0 8px rgba(184,119,255,0.25),
+    0 0 30px rgba(0,0,0,0.9);
+  transition: 0.2s;
+}
+
+.GroupsGhostBtn:hover {
+  border-color: var(--stroke-strong);
+  background: rgba(20,10,40,0.4);
+  box-shadow:
+    0 0 14px rgba(184,119,255,0.6),
+    0 0 48px rgba(0,0,0,1);
+}
+
+.GroupsGhostBtnMain {
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-shadow:
+    0 0 8px rgba(184,119,255,0.6),
+    0 0 20px rgba(184,119,255,0.4);
+}
+
+.GroupsGhostBtnSub {
+  font-size: 0.6rem;
+  line-height: 1.2;
+  margin-top: 0.4rem;
+  color: var(--text-dim);
+  text-shadow: 0 0 4px rgba(0,0,0,0.8);
+}
+
+/* ========== GROUPS GRID ========== */
+
+.GroupsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  gap: 2rem;
+}
+
+/* card base */
+.GroupCard {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  box-shadow:
+    0 0 20px rgba(184,119,255,0.25),
+    0 60px 120px rgba(0,0,0,0.95);
+
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+  position: relative;
+  isolation: isolate;
+  padding: 1rem 1rem 0.75rem;
+}
+
+/* glow spill like the other cards */
+.GroupCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 10% 0%,
+    rgba(184,119,255,0.18) 0%,
+    rgba(0,0,0,0) 60%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* header zone */
+.GroupCardHeader {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.GroupTopline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 0.5rem;
+  column-gap: 1rem;
+}
+
+.GroupTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+  text-shadow:
+    0 0 10px rgba(184,119,255,0.6),
+    0 0 24px rgba(0,0,0,0.9);
+}
+
+.GroupBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* group badges use same style as project status tags */
+.GroupStatusTag {
+  font-size: 0.6rem;
+  line-height: 1.2;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid var(--stroke-soft);
+  padding: 0.3rem 0.5rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  box-shadow:
+    0 0 8px rgba(184,119,255,0.4),
+    0 0 20px rgba(0,0,0,0.9);
+  background: rgba(20,10,40,0.4);
+  white-space: nowrap;
+  min-width: 70px;
+  text-align: center;
+  font-family: var(--font-ui);
+}
+
+.GroupStatusTag.Green {
+  color: var(--accent-green);
+  text-shadow: 0 0 8px var(--accent-green);
+  border-color: rgba(0,255,195,0.4);
+  background: rgba(0,30,25,0.35);
+}
+.GroupStatusTag.Yellow {
+  color: var(--accent-yellow);
+  text-shadow: 0 0 8px var(--accent-yellow);
+  border-color: rgba(240,240,106,0.4);
+  background: rgba(60,60,0,0.3);
+}
+.GroupStatusTag.Purple {
+  color: var(--accent-purple);
+  text-shadow: 0 0 8px var(--accent-purple);
+  border-color: rgba(184,119,255,0.4);
+  background: rgba(40,20,60,0.4);
+}
+.GroupStatusTag.Blue {
+  color: var(--accent-blue);
+  text-shadow: 0 0 8px var(--accent-blue);
+  border-color: rgba(90,208,255,0.4);
+  background: rgba(10,25,40,0.4);
+}
+
+/* under the topline, show meta like focus/members */
+.GroupMetaRow {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+}
+
+.GroupMetaItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.MetaLabel {
+  font-size: 0.6rem;
+  color: var(--text-low);
+  text-transform: uppercase;
+  font-family: var(--font-ui);
+  letter-spacing: 0.18em;
+}
+
+.MetaValue {
+  color: var(--text-primary);
+  text-shadow:
+    0 0 6px rgba(184,119,255,0.4),
+    0 0 20px rgba(0,0,0,0.8);
+  font-family: var(--font-body);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* glowing header bar under each group header */
+.GroupHeaderBar {
+  width: 100%;
+  height: 3px;
+  margin-top: 0.75rem;
+  border-radius: 2px;
+  background: radial-gradient(
+    circle at 10% 50%,
+    rgba(184,119,255,0.9) 0%,
+    rgba(184,119,255,0) 70%
+  );
+  box-shadow:
+    0 0 12px rgba(184,119,255,0.8),
+    0 0 30px rgba(184,119,255,0.4);
+}
+
+/* BODY of card */
+.GroupBody {
+  flex: 1;
+  min-height: 120px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.GroupDesc {
+  margin: 0;
+  color: var(--text-primary);
+  text-shadow: 0 0 4px rgba(0,0,0,0.8);
+}
+
+/* Roles needed list */
+.GroupNeedsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  color: var(--text-low);
+}
+
+.GroupNeedsList li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 0.3rem;
+}
+
+.NeedRole {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(184,119,255,0.6);
+}
+
+.NeedStatus {
+  font-size: 0.6rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid var(--stroke-soft);
+  padding: 0.3rem 0.5rem;
+  min-width: 90px;
+  text-align: center;
+  line-height: 1.2;
+  box-shadow:
+    0 0 8px rgba(184,119,255,0.4),
+    0 0 20px rgba(0,0,0,0.9);
+  background: rgba(20,10,40,0.4);
+  white-space: nowrap;
+}
+
+.NeedStatus.Green {
+  color: var(--accent-green);
+  text-shadow: 0 0 8px var(--accent-green);
+  border-color: rgba(0,255,195,0.4);
+  background: rgba(0,30,25,0.35);
+}
+.NeedStatus.Yellow {
+  color: var(--accent-yellow);
+  text-shadow: 0 0 8px var(--accent-yellow);
+  border-color: rgba(240,240,106,0.4);
+  background: rgba(60,60,0,0.3);
+}
+.NeedStatus.Purple {
+  color: var(--accent-purple);
+  text-shadow: 0 0 8px var(--accent-purple);
+  border-color: rgba(184,119,255,0.4);
+  background: rgba(40,20,60,0.4);
+}
+.NeedStatus.Blue {
+  color: var(--accent-blue);
+  text-shadow: 0 0 8px var(--accent-blue);
+  border-color: rgba(90,208,255,0.4);
+  background: rgba(10,25,40,0.4);
+}
+
+/* footer row of buttons */
+.GroupFooterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  justify-content: flex-end;
+}
+
+.SmallAction {
+  min-width: 120px;
+}
+
+.GhostAction {
+  background: rgba(0,0,0,0);
+  border-color: var(--stroke-soft);
+  box-shadow:
+    0 0 8px rgba(184,119,255,0.25),
+    0 0 30px rgba(0,0,0,0.9);
+}
+
+.GhostAction:hover {
+  background: rgba(20,10,40,0.4);
+  border-color: var(--stroke-strong);
+  box-shadow:
+    0 0 14px rgba(184,119,255,0.6),
+    0 0 48px rgba(0,0,0,1);
+}

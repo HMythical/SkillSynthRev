@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/skillsynthdb
+    username: dev
+    password: devpass
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: false
+    locations: classpath:db/migration
+
+app:
+  jwt:
+    secret: "omg-you-found-the-string!"
+    expiresMinutes: 120
+
+discord:
+  botToken: "FAKE_TOKEN_12345"
+  guildId: "1234567890"
+  roles:
+    president: "111111111111111111"
+    vicePresident: "222222222222222222"
+    treasurer: "333333333333333333"

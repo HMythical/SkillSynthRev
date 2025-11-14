@@ -1,0 +1,517 @@
+/* AuthPage.css */
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+:root {
+  --font-ui: "Share Tech Mono", monospace;
+
+  --bg: #000000;
+  --fg: #eaeaff;
+  --fg-dim: rgba(234, 234, 255, 0.6);
+
+  --accent: #b877ff;
+
+  --border-soft: rgba(255, 255, 255, 0.15);
+  --border-strong: rgba(184, 119, 255, 0.6);
+}
+
+.AuthPage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-ui);
+  color: var(--fg);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  overflow: hidden;
+}
+
+/* Glass card */
+.AuthCard {
+  position: relative;
+  z-index: 5;
+  width: 350px;
+  background: rgba(20, 20, 30, 0.8);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow:
+    0 0 20px rgba(184, 119, 255, 0.25),
+    0 60px 120px rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+/* header row = left side (title/sub) + right side (mode buttons) */
+.AuthHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.AuthHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.AuthTitle {
+  font-size: 1.1rem;
+  line-height: 1.2rem;
+  color: var(--fg);
+  position: relative;
+  font-weight: 600;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background: transparent;
+  clip: rect(0, 0, 0, 0);
+}
+
+.glitch::before {
+  animation: glitchTop 3s infinite linear alternate-reverse;
+  color: #ff00c8;
+}
+
+.glitch::after {
+  animation: glitchBottom 2.5s infinite linear alternate-reverse;
+  color: #00fff2;
+}
+
+.AuthSub {
+  font-size: 0.6rem;
+  line-height: 0.8rem;
+  color: var(--fg-dim);
+  max-width: 12rem;
+  text-transform: none;
+  letter-spacing: 0.06em;
+}
+
+.AuthHeaderRight {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.AuthModeBtn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--accent);
+  cursor: pointer;
+
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  line-height: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+
+  padding: 0.5rem 0.6rem;
+  transition: all 0.2s;
+}
+
+.AuthModeBtn.active {
+  border-color: var(--border-strong);
+  box-shadow: 0 0 10px rgba(184, 119, 255, 0.6);
+  color: var(--fg);
+}
+
+.AuthModeBtn:hover {
+  color: #dbaaff;
+}
+
+/* form */
+.AuthForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.AuthField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.AuthFieldLabel {
+  font-size: 0.6rem;
+  color: var(--fg);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.AuthInput {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-soft);
+  color: var(--fg);
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  transition: 0.25s;
+}
+
+.AuthInput:focus {
+  border-color: var(--accent);
+  background: rgba(20, 10, 40, 0.6);
+  box-shadow: 0 0 8px rgba(184, 119, 255, 0.4);
+  outline: none;
+}
+
+.AuthError {
+  background: rgba(255, 0, 76, 0.08);
+  border: 1px solid rgba(255, 0, 76, 0.4);
+  color: #ff0050;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.6rem;
+  line-height: 0.8rem;
+  border-radius: 4px;
+  text-align: center;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.AuthSubmitBtn {
+  background: linear-gradient(
+    90deg,
+    rgba(184, 119, 255, 0.3),
+    rgba(60, 20, 100, 0.8)
+  );
+  border: 1px solid var(--border-strong);
+  color: var(--fg);
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+
+  box-shadow: 0 0 15px rgba(184, 119, 255, 0.5);
+  transition: all 0.25s;
+}
+
+.AuthSubmitBtn:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(184, 119, 255, 0.6),
+    rgba(60, 20, 100, 1)
+  );
+  box-shadow: 0 0 30px rgba(184, 119, 255, 0.7);
+  transform: scale(1.03);
+}
+
+.AuthSubmitBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+/* footer meta row */
+.AuthFooterMeta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.6rem;
+  color: var(--fg-dim);
+  letter-spacing: 0.1em;
+  text-transform: none;
+}
+
+.AuthStatusDot {
+  color: #00ffc3;
+  text-shadow: 0 0 6px rgba(0, 255, 195, 0.8);
+  font-size: 0.7rem;
+  line-height: 0.7rem;
+}
+
+.AuthStatusText {
+  color: var(--fg-dim);
+}
+
+/* animations for card + glitch */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes glitchTop {
+  0% {
+    clip: rect(0, 9999px, 0, 0);
+    transform: translate(0, 0);
+  }
+  20% {
+    clip: rect(0, 9999px, 8px, 0);
+    transform: translate(-1px, -1px);
+  }
+  40% {
+    clip: rect(0, 9999px, 4px, 0);
+    transform: translate(1px, -0.5px);
+  }
+  60% {
+    clip: rect(0, 9999px, 10px, 0);
+    transform: translate(-0.5px, 0.5px);
+  }
+  80% {
+    clip: rect(0, 9999px, 6px, 0);
+    transform: translate(0.5px, -1px);
+  }
+  100% {
+    clip: rect(0, 9999px, 0, 0);
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes glitchBottom {
+  0% {
+    clip: rect(12px, 9999px, 16px, 0);
+    transform: translate(0, 0);
+  }
+  20% {
+    clip: rect(4px, 9999px, 14px, 0);
+    transform: translate(1px, 0.5px);
+  }
+  40% {
+    clip: rect(8px, 9999px, 20px, 0);
+    transform: translate(-1px, 1px);
+  }
+  60% {
+    clip: rect(2px, 9999px, 12px, 0);
+    transform: translate(0.5px, -0.5px);
+  }
+  80% {
+    clip: rect(10px, 9999px, 18px, 0);
+    transform: translate(-0.5px, 0px);
+  }
+  100% {
+    clip: rect(12px, 9999px, 16px, 0);
+    transform: translate(0, 0);
+  }
+}
+
+.fx-layer {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.fx-content {
+  position: relative;
+  z-index: 5;
+}
+
+.AuthPage {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+/* Toasts */
+.AuthToastStack {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+  z-index: 100;
+}
+.AuthToast {
+  position: relative;
+  background: rgba(20, 20, 30, 0.85);
+  border: 1px solid rgba(184, 119, 255, 0.4);
+  border-radius: 8px;
+  min-width: 280px;
+  max-width: 340px;
+  padding: 10px 14px;
+  color: white;
+  animation: toastIn 0.3s ease forwards;
+}
+.AuthToast.success { border-color: rgba(120, 255, 120, 0.5); }
+.AuthToast.error { border-color: rgba(255, 80, 80, 0.6); }
+.AuthToast.info { border-color: rgba(80, 180, 255, 0.5); }
+.AuthToastBody { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.AuthToastBar { height: 2px; background: linear-gradient(90deg, var(--accent, #b877ff), transparent); animation: toastBar 3.5s linear forwards; margin-top: 4px; opacity: 0.8; }
+.AuthToastClose { background: none; border: none; color: #ccc; cursor: pointer; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(25px);} to { opacity: 1; transform: translateX(0);} }
+@keyframes toastBar { from {width:100%;} to {width:0;} }
+
+/* Input error glow */
+.AuthInput.hasError {
+  border-color: rgba(255, 0, 80, 0.7);
+  box-shadow: 0 0 8px rgba(255, 0, 80, 0.4);
+  animation: inputShake 0.25s ease;
+}
+@keyframes inputShake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+}
+/* ===== FIXED FORGOT PASSWORD MODAL ===== */
+.AuthModalOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 8, 12, 0.65);
+  backdrop-filter: blur(8px);
+  z-index: 90;
+  animation: fadeIn 0.25s ease forwards;
+}
+
+.AuthModal {
+  width: 380px;
+  max-width: calc(100% - 32px);
+  background: rgba(15, 15, 25, 0.92);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 1.8rem;
+  box-shadow: 0 10px 40px rgba(184, 119, 255, 0.4);
+  color: var(--fg);
+  text-align: center;
+  animation: slideUp 0.25s ease forwards;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(15px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.AuthModal h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+.AuthModal p {
+  font-size: 0.75rem;
+  color: var(--fg-dim);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+/* centered textbox fix */
+.AuthModal .AuthInput {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto 1rem auto;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  color: var(--fg);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  transition: 0.25s;
+}
+
+.AuthModal .AuthInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px rgba(184, 119, 255, 0.4);
+  outline: none;
+}
+
+/* matching site-style buttons */
+.AuthModalBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.AuthModalBtns button:first-child {
+  background: linear-gradient(90deg, rgba(184, 119, 255, 0.3), rgba(60, 20, 100, 0.8));
+  border: 1px solid var(--border-strong);
+  color: var(--fg);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 15px rgba(184, 119, 255, 0.4);
+}
+
+.AuthModalBtns button:first-child:hover {
+  background: linear-gradient(90deg, rgba(184, 119, 255, 0.6), rgba(60, 20, 100, 1));
+  box-shadow: 0 0 25px rgba(184, 119, 255, 0.6);
+  transform: scale(1.03);
+}
+
+.AuthModalBtns button:last-child {
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  color: var(--fg-dim);
+  font-size: 0.8rem;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+
+.AuthModalBtns button:last-child:hover {
+  background: rgba(184, 119, 255, 0.08);
+  color: var(--fg);
+}
+/* ===== THEMED FORGOT PASSWORD LINK ===== */
+.AuthLink {
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-family: var(--font-ui);
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  padding: 0;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.AuthLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.6;
+  transition: opacity 0.25s ease;
+}
+
+.AuthLink:hover {
+  color: #dbaaff;
+  text-shadow: 0 0 6px rgba(184, 119, 255, 0.7);
+}
+
+.AuthLink:hover::after {
+  opacity: 1;
+}

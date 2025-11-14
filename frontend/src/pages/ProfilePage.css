@@ -1,0 +1,889 @@
+@import "../styles/globals.css";
+@import "./DashboardPage.css"; /* reuse shared console + card styles */
+
+/* Top-level page container inside AppMainRegion */
+.ProfilePage {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
+
+/* Reuse ConsoleHeader but we may tweak spacing for profile */
+.ProfileHeaderStrip {
+  /* same base as .ConsoleHeader, but allow wrap a little looser */
+  flex-wrap: wrap;
+}
+
+/* ==== GRID LAYOUT: LEFT (identity) / RIGHT (forms) ==== */
+
+.ProfileGrid {
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) 1fr;
+  gap: 2rem;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .ProfileGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==== CARD FRAME (reusing dashboard card aesthetic) ==== */
+
+.ProfileCard {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  box-shadow:
+    0 0 20px rgba(184,119,255,0.25),
+    0 60px 120px rgba(0,0,0,0.95);
+  position: relative;
+  isolation: isolate;
+  padding: 1rem 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* same glow spill as other cards */
+.ProfileCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 10% 0%,
+    rgba(184,119,255,0.18) 0%,
+    rgba(0,0,0,0) 60%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ==== LEFT COLUMN (identity panel) ==== */
+
+.IdentityCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* avatar / handle section */
+.ProfileAvatarBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  row-gap: 1rem;
+  position: relative;
+}
+
+.AvatarOuter {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #2a003d 0%, #000 70%);
+  box-shadow:
+    0 0 20px rgba(184,119,255,0.6),
+    0 0 60px rgba(0,0,0,1);
+  border: 1px solid rgba(184,119,255,0.4);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* soft CRT scanline overlay */
+.AvatarScanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.08) 0 2px,
+    rgba(0,0,0,0) 2px 4px
+  );
+  opacity: 0.15;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.AvatarCircle {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 60px;
+  height: 60px;
+  top: 18px;
+  border-radius: 999px;
+  filter: drop-shadow(0 0 10px rgba(184,119,255,0.8));
+}
+
+.AvatarHead {
+  position: absolute;
+  top: 5px;
+  left: 18px;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle at 30% 30%,
+    #fff 0%,
+    #b877ff 60%,
+    #2a003d 100%
+  );
+  box-shadow: 0 0 10px rgba(184,119,255,0.8);
+}
+
+.AvatarBody {
+  position: absolute;
+  bottom: 0;
+  left: 12px;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px 10px 4px 4px;
+  background: radial-gradient(
+    circle at 30% 30%,
+    #2a003d 0%,
+    #b877ff 60%,
+    #000 100%
+  );
+  box-shadow: 0 0 10px rgba(184,119,255,0.6);
+}
+
+/* online LED */
+.AvatarLED {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #00ffc3 0%, #003326 70%);
+  box-shadow: 0 0 12px rgba(0,255,195,0.9);
+  animation: avatarLedPulse 2s ease-in-out infinite;
+}
+
+@keyframes avatarLedPulse {
+  0%,100% { filter: brightness(1); }
+  50%     { filter: brightness(1.4); }
+}
+
+.HandleBlock {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.4;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.HandleName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-shadow:
+    0 0 10px rgba(184,119,255,0.7),
+    0 0 24px rgba(0,0,0,0.9);
+}
+
+.HandleTag {
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 0.2em;
+}
+
+/* meta fields like email, join date */
+.IDMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.7rem;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+}
+
+.IDRow {
+  display: flex;
+  flex-direction: column;
+}
+
+.IDLabel {
+  font-size: 0.6rem;
+  color: var(--text-low);
+  letter-spacing: 0.2em;
+}
+
+.IDValue {
+  color: var(--text-primary);
+  text-shadow: 0 0 6px rgba(184,119,255,0.4);
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* actions under identity (update avatar, sign out) */
+.IDActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.WideAction {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+}
+
+/* ==== RIGHT COLUMN (editable form blocks) ==== */
+
+.ProfileRightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.EditBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Card header bar styles reused from dashboard */
+.CardHeader {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.CardHeaderTopline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.CardTitle {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-shadow:
+    0 0 10px rgba(184,119,255,0.5),
+    0 0 24px rgba(0,0,0,0.9);
+  line-height: 1.3;
+}
+
+.CardMeta {
+  font-size: 0.7rem;
+  color: var(--text-low);
+  line-height: 1.4;
+  letter-spacing: 0.15em;
+}
+
+.CardHeaderBar {
+  width: 100%;
+  height: 3px;
+  margin-top: 0.6rem;
+  border-radius: 2px;
+  background: radial-gradient(
+    circle at 10% 50%,
+    rgba(184,119,255,0.9) 0%,
+    rgba(184,119,255,0) 70%
+  );
+  box-shadow:
+    0 0 12px rgba(184,119,255,0.8),
+    0 0 30px rgba(184,119,255,0.4);
+}
+
+/* ==== FORMS ==== */
+
+.FormGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.FormField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.FormFieldInline {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.Half {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.FormLabel {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  line-height: 1.2;
+}
+
+.FormInput,
+.FormTextarea,
+.FormSelect {
+  width: 100%;
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid var(--stroke-soft);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  padding: 0.6rem 0.75rem;
+  box-shadow:
+    0 0 10px rgba(184,119,255,0.2),
+    0 0 40px rgba(0,0,0,0.9);
+  outline: none;
+  transition: 0.15s;
+}
+
+.FormInput:focus,
+.FormTextarea:focus,
+.FormSelect:focus {
+  border-color: var(--stroke-strong);
+  box-shadow:
+    0 0 12px rgba(184,119,255,0.5),
+    0 0 48px rgba(0,0,0,1);
+  background: rgba(20, 10, 30, 0.6);
+}
+
+.FormTextarea {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.4;
+}
+
+/* Action row under each form block */
+.FormActionsRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+/* reuse CardAction button from dashboard style but slightly wider here */
+.CardAction {
+  background: rgba(20,10,40,0.4);
+  border: 1px solid var(--stroke-soft);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  line-height: 1;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 600;
+  box-shadow:
+    0 0 10px rgba(184,119,255,0.4),
+    0 0 40px rgba(0,0,0,0.9);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.CardAction:hover {
+  border-color: var(--stroke-strong);
+  background-color: rgba(40,20,60,0.5);
+  box-shadow:
+    0 0 14px rgba(184,119,255,0.7),
+    0 0 48px rgba(0,0,0,1);
+}
+
+/* ==== SKILLS SECTION ==== */
+
+.SkillAddRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.AddSkillBtn {
+  background: rgba(0,30,25,0.35);
+  border: 1px solid rgba(0,255,195,0.4);
+  border-radius: 6px;
+  color: #00ffc3;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  line-height: 1;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+  min-width: 100px;
+  box-shadow:
+    0 0 10px rgba(0,255,195,0.4),
+    0 0 40px rgba(0,0,0,0.9);
+  transition: 0.2s;
+}
+
+.AddSkillBtn:hover {
+  box-shadow:
+    0 0 14px rgba(0,255,195,0.7),
+    0 0 48px rgba(0,0,0,1);
+  background: rgba(0,50,40,0.5);
+}
+
+.SkillList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+
+  list-style: none;
+  padding: 0.75rem 0;
+  margin: 0;
+
+  border-top: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.SkillRow {
+  background: rgba(20,10,40,0.35);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+
+  padding: 0.6rem 0.75rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  position: relative;
+}
+
+.SkillName {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.SkillLevel {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.DeleteSkillBtn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: transparent;
+  color: #ff6b6b;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 2px;
+}
+
+.DeleteSkillBtn:hover {
+  color: #ff9a9a;
+}
+
+/* theme tints for skill levels */
+.SkillLevel.Green {
+  color: var(--accent-green);
+  text-shadow: 0 0 8px var(--accent-green);
+  border-color: rgba(0,255,195,0.4);
+  background: rgba(0,30,25,0.35);
+}
+.SkillLevel.Yellow {
+  color: var(--accent-yellow);
+  text-shadow: 0 0 8px var(--accent-yellow);
+  border-color: rgba(240,240,106,0.4);
+  background: rgba(60,60,0,0.3);
+}
+.SkillLevel.Purple {
+  color: var(--accent-purple);
+  text-shadow: 0 0 8px var(--accent-purple);
+  border-color: rgba(184,119,255,0.4);
+  background: rgba(40,20,60,0.4);
+}
+.SkillLevel.Blue {
+  color: var(--accent-blue);
+  text-shadow: 0 0 8px var(--accent-blue);
+  border-color: rgba(90,208,255,0.4);
+  background: rgba(10,25,40,0.4);
+}
+
+/* ==== PROFILE FORM LAYOUT FIXES ==== */
+
+/* make sure edit cards don't let content bleed out */
+.ProfileCard.EditBlock {
+  overflow: hidden;
+}
+
+/* ensure form grid respects card width */
+.FormGrid {
+  max-width: 100%;
+}
+
+/* inline rows: align labels/inputs without crushing them */
+.FormFieldInline {
+  align-items: flex-start;
+}
+
+/* half-width inputs: flexible, but don't force large min-widths */
+.Half {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+/* inputs should always respect parent width */
+.FormInput,
+.FormTextarea,
+.FormSelect {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* keep skill add row tidy */
+.SkillAddRow {
+  align-items: flex-end;
+}
+
+/* on narrower layouts, stack instead of squishing side-by-side */
+@media (max-width: 900px) {
+  .FormFieldInline,
+  .SkillAddRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .Half {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .AddSkillBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+/* ==== DELETE ACCOUNT BUTTON ==== */
+.DeleteAccountBtn {
+  background: rgba(60, 0, 0, 0.4);
+  border: 1px solid rgba(255, 60, 60, 0.5);
+  border-radius: 6px;
+  color: #ff6b6b;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+  min-width: 150px;
+  text-align: center;
+  box-shadow:
+    0 0 10px rgba(255,60,60,0.5),
+    0 0 40px rgba(0,0,0,1);
+  transition: 0.2s;
+}
+
+.DeleteAccountBtn:hover {
+  border-color: rgba(255, 80, 80, 0.9);
+  background: rgba(90, 0, 0, 0.5);
+  box-shadow:
+    0 0 14px rgba(255,80,80,0.9),
+    0 0 48px rgba(0,0,0,1);
+}
+
+/* ==== DELETE ACCOUNT MODAL (Improved Spacing) ==== */
+.DeleteOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5000;
+  padding: 2rem; /* prevent modal hitting screen edges on mobile */
+}
+
+.DeleteModal {
+  width: 100%;
+  max-width: 480px;
+  background: var(--panel-bg);
+  border: 1px solid rgba(255, 60, 60, 0.4);
+  border-radius: 12px;
+  padding: 2rem; /* ⚡ bigger padding */
+  box-shadow:
+    0 0 80px rgba(255, 60, 60, 0.45),
+    0 0 140px rgba(0, 0, 0, 1);
+  animation: modalPop 0.22s ease-out;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* ⚡ spacing between sections */
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.DeleteModalTitle {
+  font-family: var(--font-ui);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #ff6b6b;
+  text-shadow:
+    0 0 12px rgba(255,60,60,0.7),
+    0 0 24px rgba(0,0,0,1);
+}
+
+.DeleteModalText {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+
+  color: #ffb3b3; /* softer red tone that fits your glow palette */
+  line-height: 1.7;
+
+  margin-bottom: 0.5rem;
+  text-shadow:
+    0 0 8px rgba(255,60,60,0.4),
+    0 0 16px rgba(0,0,0,1);
+}
+
+.DeleteCodeBox {
+  padding: 0.8rem 1rem; /* ⚡ more padding */
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  letter-spacing: 0.25em;
+  text-align: center;
+  border-radius: 6px;
+  background: rgba(255, 60, 60, 0.1);
+  border: 1px solid rgba(255,60,60,0.5);
+  color: #ff8d8d;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 0 12px rgba(255,60,60,0.4);
+}
+.DeleteModalInput {
+  width: 100%;
+  box-sizing: border-box;
+
+  background: rgba(30, 0, 0, 0.45);
+  border: 1px solid rgba(255,60,60,0.4);
+  border-radius: 6px;
+  color: #ffbdbd;
+
+  padding: 0.85rem 1rem;     /* now perfectly matches the DeleteCodeBox */
+  min-height: 48px;
+
+  font-size: 0.95rem;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+
+  box-shadow:
+    0 0 10px rgba(255,60,60,0.25),
+    0 0 40px rgba(0, 0, 0, 1);
+}
+.DeleteModalInput:focus {
+  border-color: rgba(255,60,60,0.8);
+  box-shadow:
+    0 0 14px rgba(255,60,60,0.7),
+    0 0 48px rgba(0,0,0,1);
+}
+/* Container for both buttons */
+.DeleteActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Shared styles */
+.DeleteConfirmBtn,
+.DeleteCancelBtn {
+  padding: 0.65rem 1rem;
+  border-radius: 6px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: 0.2s;
+  box-shadow:
+    0 0 10px rgba(255,60,60,0.25),
+    0 0 30px rgba(0,0,0,1);
+}
+
+/* Red destructive button */
+.DeleteConfirmBtn {
+  background: rgba(60, 0, 0, 0.5);
+  border: 1px solid rgba(255, 60, 60, 0.6);
+  color: #ff6b6b;
+}
+
+.DeleteConfirmBtn:hover {
+  background: rgba(90, 0, 0, 0.7);
+  border-color: rgba(255, 80, 80, 1);
+  box-shadow:
+    0 0 14px rgba(255,80,80,0.9),
+    0 0 48px rgba(0,0,0,1);
+}
+
+/* Neutral cancel button */
+.DeleteCancelBtn {
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(180,180,180,0.4);
+  color: var(--text-primary);
+}
+
+.DeleteCancelBtn:hover {
+  background: rgba(50, 50, 50, 0.6);
+  border-color: rgba(220,220,220,0.6);
+}
+/* === Neon Skill Cards === */
+
+.SkillMatrix {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.SkillCard {
+  position: relative;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  background: rgba(20,10,40,0.55);
+  border: 1px solid rgba(184,119,255,0.25);
+  box-shadow:
+    0 0 14px rgba(184,119,255,0.25),
+    0 0 40px rgba(0,0,0,0.9);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: 0.2s ease;
+  overflow: hidden;
+}
+
+.SkillCard:hover {
+  border-color: rgba(184,119,255,0.6);
+  box-shadow:
+    0 0 18px rgba(184,119,255,0.45),
+    0 0 60px rgba(0,0,0,1);
+  transform: translateY(-2px);
+}
+
+/* subtle CRT scanlines */
+.SkillCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.04) 0 2px,
+    rgba(0,0,0,0) 2px 4px
+  );
+  opacity: 0.2;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.SkillCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.SkillCardName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-shadow:
+    0 0 8px rgba(184,119,255,0.6),
+    0 0 20px rgba(0,0,0,1);
+}
+
+/* delete button */
+.SkillCardDelete {
+  background: transparent;
+  border: none;
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 2px;
+  transition: 0.15s;
+}
+
+.SkillCardDelete:hover {
+  color: #ff9a9a;
+  transform: scale(1.1);
+}
+
+/* === Level Badge === */
+
+.SkillBadge {
+  font-size: 0.65rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 6px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  width: fit-content;
+  font-weight: 600;
+  border: 1px solid;
+  backdrop-filter: blur(3px);
+}
+
+/* colors tuned to your theme */
+
+.SkillBadge.learning {
+  color: var(--accent-yellow);
+  border-color: rgba(240,240,106,0.3);
+  background: rgba(120,120,10,0.25);
+  text-shadow: 0 0 8px var(--accent-yellow);
+}
+
+.SkillBadge.competent {
+  color: var(--accent-blue);
+  border-color: rgba(90,208,255,0.3);
+  background: rgba(10,40,60,0.3);
+  text-shadow: 0 0 8px var(--accent-blue);
+}
+
+.SkillBadge.proficient {
+  color: var(--accent-green);
+  border-color: rgba(0,255,195,0.3);
+  background: rgba(0,50,35,0.3);
+  text-shadow: 0 0 8px var(--accent-green);
+}
+
+.SkillBadge.expert {
+  color: var(--accent-purple);
+  border-color: rgba(184,119,255,0.4);
+  background: rgba(50,20,80,0.35);
+  text-shadow: 0 0 10px var(--accent-purple);
+}

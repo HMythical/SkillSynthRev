@@ -1,0 +1,221 @@
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+:root {
+  --fg: #eaeaff;
+  --bg: #000;
+  --pink: #ff00c8;
+  --blue: #00fff2;
+  --accent: #b877ff;
+  --neon-green: #00ff95;
+}
+
+/* Base Layout */
+.SplashScreen {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  overflow: hidden;
+}
+
+/* Canvas fills full viewport */
+.SplashCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
+/* Scanline + vignette overlays */
+.FXOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.fx-scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.04) 0px,
+    rgba(255,255,255,0.04) 1px,
+    transparent 2px,
+    transparent 3px
+  );
+  mix-blend-mode: soft-light;
+  animation: scan 6s infinite ease-in-out;
+}
+.fx-vignette {
+  background: radial-gradient(ellipse at center,
+    rgba(0,0,0,0) 40%,
+    rgba(0,0,0,0.55) 100%
+  );
+}
+@keyframes scan { 0%,100% { transform: translateY(0); opacity:.6; } 50% { transform: translateY(-1px); opacity:.8; } }
+
+/* Centered content (tight vertical spacing) */
+.ContentWrap {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  text-align: center;
+  padding: 2rem;
+  user-select: none;
+}
+
+/* === Title === */
+.SplashTitle {
+  font-family: "Share Tech Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1;
+  margin: 0;
+  position: relative;
+  color: var(--fg);
+  -webkit-text-stroke: 0.5px rgba(234,234,255,0.35);
+  text-shadow:
+    0 0 10px rgba(184,119,255,0.35),
+    0 0 24px rgba(184,119,255,0.3);
+  animation: titlePulse 3.2s ease-in-out infinite;
+}
+
+/* === Chromatic jitter (no clip, works everywhere) === */
+.chroma::before,
+.chroma::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: saturate(145%);
+}
+
+.chroma::before {
+  color: var(--pink);
+  animation:
+    jitterA 1.9s steps(2, end) infinite,
+    flicker 2.7s linear infinite;
+}
+
+.chroma::after {
+  color: var(--blue);
+  animation:
+    jitterB 2.2s steps(2, end) infinite,
+    flicker 3.1s linear infinite;
+}
+
+@keyframes jitterA {
+  0%   { transform: translate(0,0); }
+  10%  { transform: translate(-1px,-1px); }
+  20%  { transform: translate(1px,-1px); }
+  30%  { transform: translate(-1px,1px); }
+  40%  { transform: translate(1px,1px); }
+  50%  { transform: translate(0,0); }
+  60%  { transform: translate(1px,-1px); }
+  70%  { transform: translate(-1px,1px); }
+  80%  { transform: translate(1px,0); }
+  90%  { transform: translate(-1px,0); }
+  100% { transform: translate(0,0); }
+}
+@keyframes jitterB {
+  0%   { transform: translate(0,0); }
+  15%  { transform: translate(1px,1px); }
+  30%  { transform: translate(-1px,1px); }
+  45%  { transform: translate(1px,-1px); }
+  60%  { transform: translate(-1px,-1px); }
+  75%  { transform: translate(0,1px); }
+  90%  { transform: translate(1px,0); }
+  100% { transform: translate(0,0); }
+}
+
+/* Subtle brightness pops */
+@keyframes flicker {
+  0%, 85%, 100% { opacity: 1; }
+  90% { opacity: 0.75; }
+  95% { opacity: 0.6; }
+}
+
+/* Neon pulse behind base text */
+@keyframes titlePulse {
+  0%,100% { filter: drop-shadow(0 0 12px rgba(184,119,255,0.25)); }
+  50%     { filter: drop-shadow(0 0 22px rgba(184,119,255,0.55)); }
+}
+
+/* Subtitle (no typing) */
+.SplashSubtitle {
+  font-family: "Share Tech Mono", monospace;
+  font-size: clamp(1rem, 2.4vw, 1.4rem);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  opacity: 0.9;
+  margin: 0.1rem 0 0;
+}
+
+/* Enter Button */
+.EnterBtn {
+  position: relative;
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid var(--accent);
+  font-family: "Share Tech Mono", monospace;
+  font-size: clamp(1rem, 2.4vw, 1.2rem);
+  padding: 0.8rem 2.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: transform .18s, box-shadow .18s, background .18s, border-color .18s;
+  box-shadow: 0 0 10px rgba(184,119,255,0.35);
+  z-index: 3;
+  isolation: isolate;
+  margin-top: 0.4rem;
+}
+.EnterBtn:hover {
+  transform: translateY(-1px) scale(1.03);
+  border-color: var(--accent);
+  background: rgba(184,119,255,0.12);
+  box-shadow: 0 0 24px rgba(184,119,255,0.7);
+}
+/* neon brackets */
+.EnterBtn.neon-bracket::before,
+.EnterBtn.neon-bracket::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 60%;
+  transform: translateY(-50%);
+  border: 1px solid var(--accent);
+  filter: drop-shadow(0 0 8px rgba(184,119,255,0.6));
+  opacity: 0.85;
+  pointer-events: none;
+}
+.EnterBtn.neon-bracket::before { left: 10px; border-right: none; }
+.EnterBtn.neon-bracket::after  { right: 10px; border-left: none; }
+
+/* Footer fixed to bottom */
+.FooterMeta.fixed-footer {
+  position: fixed;
+  bottom: 1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+  font-family: "Share Tech Mono", monospace;
+  letter-spacing: 0.2em;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.8);
+  z-index: 3;
+}
+.FooterMeta .status { color: var(--neon-green); text-shadow: 0 0 8px rgba(0,255,149,0.9); font-weight: 700; }
+.FooterMeta .rev    { color: var(--accent);     text-shadow: 0 0 8px rgba(184,119,255,0.8); font-weight: 600; }
+.FooterMeta .sep    { display: inline-block; margin: 0 0.6rem; opacity: 0.85; }

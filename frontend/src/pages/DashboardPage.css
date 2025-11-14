@@ -1,0 +1,373 @@
+@import "../styles/globals.css";
+
+/* Whole dashboard content region inside AppMainRegion */
+.DashboardPage {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
+
+/* ========== CONSOLE HEADER (top status bar inside page) ========== */
+
+.ConsoleHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 1rem;
+  column-gap: 2rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--stroke-soft);
+  border-radius: 10px;
+  background: rgba(10, 10, 10, 0.6);
+  box-shadow:
+    0 0 20px rgba(184,119,255,0.35),
+    0 40px 80px rgba(0,0,0,0.9);
+  position: relative;
+  isolation: isolate;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* faint glow wash in background */
+.ConsoleHeader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 5% 10%,
+      rgba(184,119,255,0.2) 0%,
+      rgba(0,0,0,0) 70%
+    ),
+    radial-gradient(
+      circle at 90% 90%,
+      rgba(0,255,195,0.12) 0%,
+      rgba(0,0,0,0) 70%
+    );
+  mix-blend-mode: screen;
+  filter: blur(30px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.8;
+  animation: consoleGlow 6s ease-in-out infinite;
+}
+
+@keyframes consoleGlow {
+  0%   { filter: blur(20px) brightness(1); opacity: 0.6; }
+  50%  { filter: blur(30px) brightness(1.3); opacity: 1; }
+  100% { filter: blur(20px) brightness(1); opacity: 0.6; }
+}
+
+.ConsoleHeader-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 220px;
+}
+
+.ConsoleTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-shadow:
+    0 0 10px rgba(184,119,255,0.7),
+    0 0 24px rgba(0,0,0,0.9);
+  line-height: 1.2;
+  letter-spacing: 0.15em;
+}
+
+.ConsoleSub {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  line-height: 1.4;
+}
+
+.ConsoleSubLabel {
+  color: var(--text-low);
+  letter-spacing: 0.2em;
+}
+
+.ConsoleSubValue {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(184,119,255,0.6);
+}
+
+.ConsoleGlare {
+  color: var(--accent-purple);
+  text-shadow:
+    0 0 8px rgba(184,119,255,0.8),
+    0 0 24px rgba(184,119,255,0.4);
+}
+
+.ConsoleDivider {
+  color: var(--text-low);
+  opacity: 0.5;
+  font-weight: 400;
+}
+
+.ConsoleHeader-right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 200px;
+  justify-content: flex-start;
+}
+
+.ConsolePill {
+  font-size: 0.6rem;
+  line-height: 1.2;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--stroke-soft);
+  background: rgba(20,10,40,0.4);
+  box-shadow:
+    0 0 10px rgba(184,119,255,0.4),
+    0 0 40px rgba(0,0,0,0.9);
+  letter-spacing: 0.2em;
+  font-weight: 600;
+}
+
+.ConsolePill-stable {
+  color: #00ffc3;
+  text-shadow: 0 0 8px rgba(0,255,195,0.9);
+  border-color: rgba(0,255,195,0.4);
+  background: rgba(0,30,25,0.35);
+}
+
+.ConsolePill-rev {
+  color: var(--accent-purple);
+  border-color: rgba(184,119,255,0.4);
+}
+
+/* ========== WELCOME / SUMMARY BLOCK ========== */
+
+.DashSection {
+  max-width: 900px;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.SectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-shadow:
+    0 0 10px rgba(184,119,255,0.5),
+    0 0 24px rgba(0,0,0,0.9);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+  letter-spacing: 0.15em;
+}
+
+.SectionBody {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+}
+
+.AccentText {
+  color: var(--accent-purple);
+  text-shadow: 0 0 8px rgba(184,119,255,0.8);
+  font-weight: 600;
+}
+
+/* ========== CARD GRID ========== */
+
+.DashGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 2rem;
+}
+
+/* CARD SURFACE */
+
+.DashCard {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  box-shadow:
+    0 0 20px rgba(184,119,255,0.25),
+    0 60px 120px rgba(0,0,0,0.95);
+  padding: 1rem 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 240px;
+  position: relative;
+  isolation: isolate;
+}
+
+/* subtle interior glow spill at top-left of card */
+.DashCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 10% 0%,
+    rgba(184,119,255,0.18) 0%,
+    rgba(0,0,0,0) 60%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* CARD HEADER */
+
+.CardHeader {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.CardHeaderTopline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.CardTitle {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(184,119,255,0.5),
+               0 0 24px rgba(0,0,0,0.9);
+  line-height: 1.3;
+}
+
+.CardMeta {
+  font-size: 0.75rem;
+  color: var(--text-low);
+  line-height: 1.4;
+  letter-spacing: 0.15em;
+}
+
+/* glowing strip under header */
+.CardHeaderBar {
+  width: 100%;
+  height: 3px;
+  margin-top: 0.6rem;
+  border-radius: 2px;
+  background: radial-gradient(
+    circle at 10% 50%,
+    rgba(184,119,255,0.9) 0%,
+    rgba(184,119,255,0) 70%
+  );
+  box-shadow:
+    0 0 12px rgba(184,119,255,0.8),
+    0 0 30px rgba(184,119,255,0.4);
+}
+
+/* CARD BODY */
+
+.CardBody {
+  flex: 1;
+  min-height: 120px;
+}
+
+.MiniList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--text-dim);
+  font-family: var(--font-body);
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+.MiniList li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding-bottom: 0.5rem;
+}
+
+.MiniName {
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-shadow: 0 0 4px rgba(0,0,0,0.9);
+}
+
+.MiniStatus {
+  font-size: 0.7rem;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.MiniStatus.Green {
+  color: var(--accent-green);
+  text-shadow: 0 0 8px var(--accent-green);
+}
+.MiniStatus.Yellow {
+  color: var(--accent-yellow);
+  text-shadow: 0 0 8px var(--accent-yellow);
+}
+.MiniStatus.Purple {
+  color: var(--accent-purple);
+  text-shadow: 0 0 8px var(--accent-purple);
+}
+.MiniStatus.Blue {
+  color: var(--accent-blue);
+  text-shadow: 0 0 8px var(--accent-blue);
+}
+
+/* CARD FOOTER */
+
+.CardFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.CardAction {
+  background: rgba(20,10,40,0.4);
+  border: 1px solid var(--stroke-soft);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  line-height: 1;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 600;
+  box-shadow:
+    0 0 10px rgba(184,119,255,0.4),
+    0 0 40px rgba(0,0,0,0.9);
+}
+
+.CardAction:hover {
+  border-color: var(--stroke-strong);
+  background-color: rgba(40,20,60,0.5);
+  box-shadow:
+    0 0 14px rgba(184,119,255,0.7),
+    0 0 48px rgba(0,0,0,1);
+}

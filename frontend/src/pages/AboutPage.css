@@ -1,0 +1,543 @@
+@import "../styles/globals.css";
+@import "./DashboardPage.css";
+
+/* PAGE WRAP */
+.AboutPage {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
+
+/* =========================
+   MISSION / HERO
+   ========================= */
+
+.AboutMissionBlock {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  box-shadow:
+    0 0 24px rgba(184,119,255,0.25),
+    0 60px 120px rgba(0,0,0,0.95);
+  position: relative;
+  isolation: isolate;
+  padding: 1.5rem 1.25rem 1.25rem;
+}
+
+/* NEW: widen and center the mission section when .is-wide is present */
+.AboutMissionBlock.is-wide .AboutMissionTop {
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.AboutMissionBlock::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 10% 0%,
+    rgba(184,119,255,0.18) 0%,
+    rgba(0,0,0,0) 60%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.AboutMissionTop {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-between;
+}
+
+.AboutMissionLeft {
+  flex: 1 1 520px; /* was 320px — give text more room */
+  min-width: 320px;
+}
+
+.AboutPreTitle {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent-purple);
+  text-shadow:
+    0 0 10px rgba(184,119,255,0.7),
+    0 0 24px rgba(0,0,0,0.9);
+  margin-bottom: 0.5rem;
+}
+
+.AboutTitle {
+  font-family: var(--font-ui);
+  font-size: 1.2rem; /* + a touch for hierarchy */
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  text-shadow:
+    0 0 12px rgba(184,119,255,0.8),
+    0 0 32px rgba(0,0,0,1);
+  margin: 0 0 1rem 0;
+}
+
+.AboutBody {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 6px rgba(0,0,0,0.8);
+  margin: 0 0 0.75rem 0;
+  max-width: 50ch;
+}
+
+/* NEW: long-form mission text with comfy line length */
+.AboutBodyLong {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+  letter-spacing: 0.01em;
+  text-shadow: 0 0 6px rgba(0,0,0,0.8);
+  max-width: 70ch;
+}
+.AboutBodyLong p { margin: 0 0 0.9rem 0; }
+
+.AboutTagline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.TagBadge {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+
+  border-radius: 6px;
+  border: 1px solid var(--stroke-soft);
+  padding: 0.4rem 0.6rem;
+
+  background: rgba(20,10,40,0.4);
+  color: var(--text-primary);
+  text-shadow: 0 0 8px rgba(184,119,255,0.6);
+  box-shadow:
+    0 0 10px rgba(184,119,255,0.4),
+    0 0 40px rgba(0,0,0,0.9);
+}
+
+.AboutMissionRight {
+  flex: 0 0 260px;
+  min-width: 240px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.AboutStatsCard {
+  width: 100%;
+  background: rgba(10,5,20,0.8);
+  border: 1px solid var(--stroke-strong);
+  border-radius: 10px;
+  box-shadow:
+    0 0 30px rgba(184,119,255,0.4),
+    0 0 120px rgba(0,0,0,1),
+    inset 0 0 30px rgba(60,20,120,0.3);
+
+  padding: 1rem;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  position: relative;
+  isolation: isolate;
+}
+
+.StatsHeader {
+  font-size: 0.7rem;
+  color: var(--accent-purple);
+  text-shadow:
+    0 0 10px rgba(184,119,255,0.8),
+    0 0 24px rgba(0,0,0,0.9);
+  margin-bottom: 0.75rem;
+}
+
+.StatsRow {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.75rem;
+}
+
+.StatLabel {
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  color: var(--text-low);
+  margin-bottom: 0.3rem;
+}
+
+.StatValue {
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--text-primary);
+  text-shadow:
+    0 0 6px rgba(184,119,255,0.4),
+    0 0 20px rgba(0,0,0,0.8);
+}
+
+.StatsDivider {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  margin: 0.75rem 0;
+}
+
+.StatsFooter {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.StatsPill {
+  font-size: 0.6rem;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--stroke-soft);
+  background: rgba(20,10,40,0.4);
+  box-shadow:
+    0 0 10px rgba(184,119,255,0.4),
+    0 0 40px rgba(0,0,0,0.9);
+  color: var(--text-primary);
+  min-width: 70px;
+  text-align: center;
+  letter-spacing: 0.18em;
+}
+.StatsPill.online {
+  color: #00ffc3;
+  text-shadow: 0 0 8px rgba(0,255,195,0.9);
+  border-color: rgba(0,255,195,0.4);
+  background: rgba(0,30,25,0.35);
+}
+.StatsPill.rev {
+  color: var(--accent-purple);
+  border-color: rgba(184,119,255,0.4);
+}
+
+/* =========================
+   SECTIONS (PRESIDENT / OFFICERS / DEV / MENTORS / HACKATHON)
+   ========================= */
+
+.AboutSection {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  box-shadow:
+    0 0 20px rgba(184,119,255,0.25),
+    0 60px 120px rgba(0,0,0,0.95);
+  position: relative;
+  isolation: isolate;
+  padding: 1.25rem 1rem;
+}
+
+.AboutSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 10% 0%,
+    rgba(184,119,255,0.18) 0%,
+    rgba(0,0,0,0) 60%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.SectionHeaderRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 0.75rem;
+  column-gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.SectionLabelBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.SectionLabel {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-shadow:
+    0 0 10px rgba(184,119,255,0.8),
+    0 0 24px rgba(0,0,0,0.9);
+}
+
+.SectionSub {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  line-height: 1.4;
+  color: var(--text-dim);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* PEOPLE GRID */
+
+.PeopleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 1rem 1.5rem;
+}
+.PeopleGrid.single {
+  grid-template-columns: minmax(260px, 400px);
+}
+/* NEW: two-up helper for President + VP */
+.PeopleGrid.two {
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+}
+
+/* CARD */
+
+.PersonCard {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  background: rgba(10,5,20,0.8);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow:
+    0 0 24px rgba(184,119,255,0.25),
+    0 60px 120px rgba(0,0,0,0.95),
+    inset 0 0 24px rgba(60,20,120,0.2);
+  position: relative;
+  isolation: isolate;
+}
+
+.PersonCard.highlight {
+  border: 1px solid var(--stroke-strong);
+  box-shadow:
+    0 0 24px rgba(184,119,255,0.6),
+    0 80px 160px rgba(0,0,0,1),
+    inset 0 0 32px rgba(60,20,120,0.4);
+}
+
+.PersonAvatar {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  border: 1px solid var(--stroke-soft);
+  background-size: cover;
+  background-position: center;
+  box-shadow:
+    0 0 12px rgba(184,119,255,0.5),
+    0 0 40px rgba(0,0,0,0.9);
+}
+
+/* Avatar placeholders */
+.PresAvatar {
+  background-image: radial-gradient(circle at 30% 30%, #b877ff 0%, #1a001f 70%);
+}
+/* NEW: Vice President */
+.VPAvatar {
+  background-image: radial-gradient(circle at 30% 30%, #4da1ff 0%, #00122a 70%);
+}
+/* Officers */
+.OfficerAvatar1 {
+  background-image: radial-gradient(circle at 30% 30%, #00ffc3 0%, #001a14 70%);
+}
+.OfficerAvatar2 {
+  background-image: radial-gradient(circle at 30% 30%, #4da1ff 0%, #00122a 70%);
+}
+.OfficerAvatar3 {
+  background-image: radial-gradient(circle at 30% 30%, #ffcc33 0%, #2a1a00 70%);
+}
+/* Developers */
+.DevAvatar1 {
+  background-image: radial-gradient(circle at 30% 30%, #ff0044 0%, #1a0010 70%);
+}
+.DevAvatar2 {
+  background-image: radial-gradient(circle at 30% 30%, #8cff00 0%, #1a1a1a 70%);
+}
+.DevAvatar3 {
+  background-image: radial-gradient(circle at 30% 30%, #ff9900 0%, #2a1500 70%);
+}
+/* NEW: extra developers */
+.DevAvatar4 {
+  background-image: radial-gradient(circle at 30% 30%, #00e5ff 0%, #001a26 70%);
+}
+.DevAvatar5 {
+  background-image: radial-gradient(circle at 30% 30%, #ff66e0 0%, #26001a 70%);
+}
+/* Mentors */
+.MentorAvatar1 {
+  background-image: radial-gradient(circle at 30% 30%, #ffffff 0%, #000000 80%);
+}
+.MentorAvatar2 {
+  background-image: radial-gradient(circle at 30% 30%, #b877ff 0%, #1a001f 70%);
+}
+/* NEW: extra mentors */
+.MentorAvatar3 {
+  background-image: radial-gradient(circle at 30% 30%, #66ffcc 0%, #001a14 75%);
+}
+.MentorAvatar4 {
+  background-image: radial-gradient(circle at 30% 30%, #ffd480 0%, #201000 75%);
+}
+/* NEW: hackathon winners */
+.HackAvatar1 {
+  background-image: radial-gradient(circle at 30% 30%, #7cf4ff 0%, #00101a 70%);
+}
+.HackAvatar2 {
+  background-image: radial-gradient(circle at 30% 30%, #c2ff7c 0%, #0f1a00 70%);
+}
+
+.PersonMetaWrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.PersonNameRow {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.4rem;
+  column-gap: 0.5rem;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+
+.PersonName {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-shadow:
+    0 0 10px rgba(184,119,255,0.8),
+    0 0 24px rgba(0,0,0,0.9);
+}
+
+.PersonRoleTag {
+  font-size: 0.55rem;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  line-height: 1.2;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid var(--stroke-soft);
+  padding: 0.3rem 0.5rem;
+  background: rgba(20,10,40,0.4);
+  color: var(--text-primary);
+  text-shadow:
+    0 0 8px rgba(184,119,255,0.6),
+    0 0 24px rgba(0,0,0,0.9);
+  box-shadow:
+    0 0 10px rgba(184,119,255,0.4),
+    0 0 40px rgba(0,0,0,0.9);
+}
+
+.PersonRoleTag.role-president {
+  color: #00ffc3;
+  text-shadow: 0 0 8px rgba(0,255,195,0.9);
+  border-color: rgba(0,255,195,0.4);
+  background: rgba(0,30,25,0.35);
+}
+/* NEW: VP chip */
+.PersonRoleTag.role-vice {
+  color: #4da1ff;
+  text-shadow: 0 0 8px rgba(77,161,255,0.9);
+  border-color: rgba(77,161,255,0.4);
+  background: rgba(0,18,42,0.35);
+}
+
+.PersonDesc {
+  font-size: 0.7rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 6px rgba(0,0,0,0.8);
+  text-transform: none;
+  margin-bottom: 0.35rem;
+}
+
+/* NEW: contact lines inside cards */
+.PersonContact {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  opacity: 0.95;
+}
+.PersonContact .ContactLine {
+  margin-top: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.PersonContact a {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* =========================
+   CLOSER
+   ========================= */
+
+.AboutCloser {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.CloserShell {
+  width: 100%;
+  max-width: 800px;
+
+  background: rgba(10,5,20,0.8);
+  border: 1px solid var(--stroke-strong);
+  border-radius: 12px;
+  box-shadow:
+    0 0 30px rgba(184,119,255,0.4),
+    0 0 120px rgba(0,0,0,1),
+    inset 0 0 30px rgba(60,20,120,0.3);
+
+  padding: 1.25rem 1rem 1rem;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  text-align: center;
+}
+
+.CloserLineMain {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-shadow:
+    0 0 12px rgba(184,119,255,0.8),
+    0 0 32px rgba(0,0,0,1);
+  margin-bottom: 0.5rem;
+}
+
+.CloserLineSub {
+  font-size: 0.7rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+  text-transform: none;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 6px rgba(0,0,0,0.8);
+}

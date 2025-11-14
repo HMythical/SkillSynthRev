@@ -1,0 +1,75 @@
+:root {
+  --bg: #000;
+  --panel-bg: rgba(10, 10, 10, 0.6);
+  --panel-border: rgba(255,255,255,0.08);
+  --panel-shadow: 0 20px 60px rgba(0,0,0,0.9);
+
+  --text-primary: #fff;
+  --text-dim: rgba(255,255,255,0.6);
+  --text-low: rgba(255,255,255,0.4);
+
+  --accent-green: #00ffc3;
+  --accent-yellow: #f0f06a;
+  --accent-purple: #b877ff;
+  --accent-blue: #5ad0ff;
+
+  --stroke-strong: rgba(255,255,255,0.28);
+  --stroke-soft: rgba(255,255,255,0.12);
+
+  --radius-card: 10px;
+  --radius-btn: 4px;
+
+  --font-ui: "Orbitron", system-ui, sans-serif;
+  --font-body: system-ui, sans-serif;
+
+  --navbar-height: 88px;
+  --footer-height: 70px;
+}
+
+/* global background style (grid + vignette), and root layout */
+.AppSurface {
+  min-height: 100vh;
+  background-color: var(--bg);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.07) 0 1px,
+      transparent 1px 60px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.07) 0 1px,
+      transparent 1px 60px
+    );
+  background-size: cover;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-body);
+  position: relative;
+}
+
+.AppSurface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 80%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.AppMainRegion {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  padding: 2rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-top: calc(2rem + var(--navbar-height) + 2rem);
+  padding-bottom: calc(2rem + var(--footer-height) + 2rem);
+}
