@@ -26,9 +26,56 @@
   --footer-height: 70px;
 }
 
-/* global background style (grid + vignette), and root layout */
+/* ==========================================================
+   GLOBAL RESET + FULLSCREEN BACKGROUND FRAMEWORK
+   ========================================================== */
+
+body {
+  margin: 0;
+  background-color: #000;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==========================================================
+   GLOBAL 60FPS PERFORMANCE BOOSTS
+   ========================================================== */
+
+html, body {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+* {
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.Animated {
+  will-change: transform, opacity;
+}
+
+/* ==========================================================
+   BASE APP BACKGROUND (ALWAYS FULLSCREEN, ALWAYS FIXED)
+   ========================================================== */
+
 .AppSurface {
   min-height: 100vh;
+  width: 100%;
+
+  /* Fixed, never-moving background */
   background-color: var(--bg);
   background-image:
     repeating-linear-gradient(
@@ -41,22 +88,38 @@
       rgba(255,255,255,0.07) 0 1px,
       transparent 1px 60px
     );
+
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* ⭐ stays full-size behind dropdowns */
+
   color: var(--text-primary);
   display: flex;
   flex-direction: column;
   font-family: var(--font-body);
   position: relative;
+
+  transform: translateZ(0);
+  will-change: transform, opacity;
 }
 
 .AppSurface::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 80%);
+  background: radial-gradient(
+    circle at 50% 30%, 
+    rgba(0,0,0,0) 0%, 
+    rgba(0,0,0,0.9) 80%
+  );
   pointer-events: none;
   z-index: 0;
 }
+
+/* ==========================================================
+   MAIN CONTENT AREA
+   ========================================================== */
 
 .AppMainRegion {
   position: relative;
@@ -72,4 +135,48 @@
   gap: 2rem;
   padding-top: calc(2rem + var(--navbar-height) + 2rem);
   padding-bottom: calc(2rem + var(--footer-height) + 2rem);
+
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* ==========================================================
+   GPU ACCELERATION FOR HEAVY UI COMPONENTS
+   ========================================================== */
+
+.GlassPanel,
+.ConsolePanel,
+.ProjectCard,
+.NewProjectDropdown,
+.NavbarRoot,
+.FooterRoot,
+.ConsoleHeader {
+  transform: translateZ(0);
+  will-change: opacity, transform;
+}
+
+/* Optional: more performant blur */
+.GlassPanel,
+.NewProjectDropdown {
+  backdrop-filter: blur(8px);
+}
+
+/* ==========================================================
+   GLOBAL PAGE FADE-IN (ROUTE TRANSITION)
+   ========================================================== */
+
+.Page {
+  animation: fadeInPage 0.35s ease;
+  will-change: opacity, transform;
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

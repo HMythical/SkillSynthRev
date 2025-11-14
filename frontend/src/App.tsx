@@ -75,7 +75,6 @@ function PublicShell() {
       <main style={{ flex: 1 }}>
         <Outlet />
       </main>
-      <Footer />
     </div>
   );
 }

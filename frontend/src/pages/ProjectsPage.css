@@ -374,3 +374,293 @@
     0 0 14px rgba(184,119,255,0.6),
     0 0 48px rgba(0,0,0,1);
 }
+/* ==========================================================
+   NEW PROJECT DROPDOWN — MAIN WRAPPER PANEL
+   ========================================================== */
+
+.NewProjectDropdown {
+  width: 100%;
+  margin-top: 1.4rem;
+  padding: 1.8rem 2rem;
+
+  background: rgba(20, 12, 40, 0.55);
+  border-radius: 18px;
+  border: 1px solid rgba(180, 120, 255, 0.22);
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 0 30px rgba(170, 100, 255, 0.25),
+    inset 0 0 28px rgba(30, 8, 60, 0.6);
+
+  animation: fadeSlideIn 0.35s ease-out;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Console font inherits across the entire form */
+.NPForm {
+  font-family: var(--font-body);
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+}
+
+/* ==========================================================
+   GRID — TWO COLUMN LAYOUT
+   ========================================================== */
+
+.NPGrid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 2rem;
+}
+
+.NPColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.NPDivider {
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    rgba(180, 120, 255, 0.55),
+    rgba(100, 60, 150, 0.2),
+    rgba(180, 120, 255, 0.55)
+  );
+}
+
+/* ==========================================================
+   FIELDS — INPUTS, LABELS, TEXTAREAS
+   ========================================================== */
+
+.NPField label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: rgba(240, 220, 255, 0.78);
+  display: block;
+}
+
+/* Inputs, selects, textareas */
+.NPField input,
+.NPField textarea,
+.NPSelect {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+
+  background: rgba(35, 20, 55, 0.55);
+  border: 1px solid rgba(150, 90, 240, 0.28);
+  border-radius: 10px;
+
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+
+  transition: 0.2s ease;
+}
+
+/* Placeholders improved */
+.NPField input::placeholder,
+.NPField textarea::placeholder {
+  color: rgba(220, 200, 255, 0.45);
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.NPField textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.NPField input:focus,
+.NPField textarea:focus,
+.NPSelect:focus {
+  border-color: rgba(210, 150, 255, 0.85);
+  box-shadow:
+    0 0 12px rgba(180, 110, 255, 0.45),
+    inset 0 0 16px rgba(60, 20, 120, 0.45);
+  outline: none;
+}
+
+/* ==========================================================
+   SELECT DROPDOWN — SKILL LEVEL
+   ========================================================== */
+
+.NPSelect {
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(60, 30, 110, 0.4),
+    rgba(30, 15, 60, 0.45)
+  );
+}
+
+/* ==========================================================
+   BUTTON — CONSOLE STYLE (GLOBAL)
+   ========================================================== */
+
+.BtnConsole {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.55rem 1.1rem;
+
+  font-size: 0.75rem;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+
+  background: rgba(150, 90, 255, 0.35);
+  border: 1px solid rgba(180, 120, 255, 0.6);
+  color: var(--text-primary);
+
+  border-radius: 10px;
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.BtnConsole:hover {
+  background: rgba(180, 120, 255, 0.45);
+  box-shadow:
+    0 0 16px rgba(180, 120, 255, 0.55),
+    inset 0 0 18px rgba(80, 20, 150, 0.45);
+}
+
+.SkillAddBtn {
+  margin-top: 0.6rem;
+}
+
+/* CREATE PROJECT — Full width */
+.CreateProjectBtn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+}
+
+/* ==========================================================
+   SKILLS — CHIPS + COLOR GLOW
+   ========================================================== */
+
+.SkillChips {
+  margin-top: 0.7rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.SkillChip {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+
+  padding: 0.45rem 0.7rem;
+  border-radius: 12px;
+
+  background: rgba(120, 60, 255, 0.18);
+  border: 1px solid rgba(150, 85, 255, 0.35);
+  box-shadow: inset 0 0 10px rgba(150, 80, 255, 0.3);
+
+  font-size: 0.8rem;
+}
+
+.SkillRemove {
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.75;
+}
+.SkillRemove:hover {
+  opacity: 1;
+}
+
+/* GLOW TAGS (MATCHES PROFILE PAGE) */
+.SkillLevelTag {
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  box-shadow: 0 0 10px currentColor;
+}
+
+/* LEVEL COLORS */
+.SkillLevelTag.Learning {
+  color: #ffd369;
+  background: rgba(255, 201, 70, 0.18);
+  border: 1px solid rgba(255, 201, 70, 0.6);
+}
+
+.SkillLevelTag.Competent {
+  color: #41f7a5;
+  background: rgba(65, 247, 165, 0.18);
+  border: 1px solid rgba(65, 247, 165, 0.55);
+}
+
+.SkillLevelTag.Proficient {
+  color: #4fa8ff;
+  background: rgba(79, 168, 255, 0.18);
+  border: 1px solid rgba(79, 168, 255, 0.55);
+}
+
+.SkillLevelTag.Expert {
+  color: #d58cff;
+  background: rgba(213, 140, 255, 0.18);
+  border: 1px solid rgba(213, 140, 255, 0.55);
+  box-shadow: 0 0 12px rgba(213, 140, 255, 0.7);
+}
+
+/* ==========================================================
+   MEMBERS — SEARCH + RESULTS + CHIPS
+   ========================================================== */
+
+.MemberSearchBox {
+  margin-top: 0.4rem;
+  background: rgba(40, 22, 70, 0.75);
+  border: 1px solid rgba(160, 120, 255, 0.32);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.MemberResult {
+  padding: 0.7rem 0.9rem;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: 0.2s ease;
+}
+
+.MemberResult:hover {
+  background: rgba(180, 120, 255, 0.25);
+}
+
+.MemberChips {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.MemberChip {
+  padding: 0.45rem 0.7rem;
+  background: rgba(119, 184, 255, 0.25);
+  border: 1px solid rgba(119, 184, 255, 0.45);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
